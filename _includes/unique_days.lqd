@@ -1,0 +1,16 @@
+{% comment %}
+    Expose the variable days as an ordered list of unique days in the episodes
+{% endcomment %}
+
+{% assign day_list = EPISODES | map: 'day' %}
+{% assign days = "" %}
+{% for day in day_list %}
+    {% assign d = day | plus: 0 %}
+    {% assign days = days | append: d %}
+    {% assign days = days | append: ";" %}
+{% endfor %}
+
+{% assign days = days | split: ";" %}
+
+{% assign days = days | uniq %}
+{% assign days = days | sort %}

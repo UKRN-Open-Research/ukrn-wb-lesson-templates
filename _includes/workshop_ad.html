@@ -1,0 +1,55 @@
+{% comment %}
+Advertising box at the top of a workshop website home page.
+{% endcomment %}
+
+{% assign begin_address = site.address | slice: 0, 4 | downcase  %}
+{% if site.address == "online" %}
+{% assign online = "true_private" %}
+{% elsif begin_address contains "http" %}
+{% assign online = "true_public" %}
+{% else %}
+{% assign online = "false" %}
+{% endif %}
+<style>
+  .jumbotron {
+    background-size: cover;
+    background-image: url("{{ '/assets/img/banner.jpg' | relative_url }}");
+  }
+  .jumbotron .row {
+    background-color: whitesmoke;
+    opacity: .8;
+  }
+</style>
+<div class="jumbotron">
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <h1>{{site.title}}</h1>
+      <h2>{{site.venue}}</h2>
+      <div class="row">
+        <div class="col-md-6">
+          {% if online == "true_public" %}
+          <p>Online (<a href="{{site.address}}">link</a>)</p>
+          {% elsif online == "true_private" %}
+          <p>Online</p>
+          {% endif %}
+        </div>
+        <div class="col-md-6">
+          <p>
+            <strong>Instructors:</strong>
+            {% if site.instructors and site.instructors.size > 0 %}
+            {{site.instructors | array_to_sentence_string %}}
+            {% else %}
+            to be announced.
+            {% endif %}
+          </p>
+          {% if site.helpers and site.helpers.size > 0 %}
+          <p>
+            <strong>Helpers:</strong>
+            {{site.helpers | array_to_sentence_string %}}
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

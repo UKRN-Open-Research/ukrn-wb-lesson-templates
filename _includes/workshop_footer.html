@@ -1,0 +1,20 @@
+{% comment %}
+  Footer for a standard workshop.
+{% endcomment %}
+<footer>
+  <hr/>
+  <div class="row">
+    <div class="col-md-6" align="left">
+      <h4>
+	Copyright &copy; 2020–{{ 'now' | date: "%Y" }}
+	<a href="{{ site.ukrn_site }}">UK Reproducibility Network</a>,
+          based on <a href="{{ site.carpentries_site }}">The Carpentries' workshop template</a>
+      </h4>
+    </div>
+    <div class="col-md-6" align="right">
+      <h4>
+	<a href="mailto:{{ site.email }}">Contact The UKRN</a>
+      </h4>
+    </div>
+  </div>
+</footer>

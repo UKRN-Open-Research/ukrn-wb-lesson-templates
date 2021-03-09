@@ -1,0 +1,20 @@
+{% comment %}
+Display key points for an episode.
+{% endcomment %}
+
+{% if page.keypoints == nil %}
+{% assign episode_keypoints = include.episode_keypoints %}
+{% else %}
+{% assign episode_keypoints = page.keypoints %}
+{% endif %}
+
+{% if episode_keypoints and episode_keypoints.size > 0 %}
+<blockquote class="keypoints">
+  <h2>Key Points</h2>
+  <ul>
+    {% for keypoint in episode_keypoints %}
+    <li>{{ keypoint|markdownify }}</li>
+    {% endfor %}
+  </ul>
+</blockquote>
+{% endif %}

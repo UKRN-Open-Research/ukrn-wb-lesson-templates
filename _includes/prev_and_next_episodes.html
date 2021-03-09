@@ -1,0 +1,35 @@
+{% comment %}
+This file determines the previous and next episodes
+relative to the current episode.
+These variables are exposed as previous_episode and next_episode
+{% endcomment %}
+
+{% assign previous_episode = nil %}
+{% assign next_episode = nil %}
+
+{% assign next_is_now = false %}
+{% assign last_episode = nil %}
+{% assign EPISODES = site.episodes | concat: site.episodes_rmd %}
+
+{% include unique_days.lqd %}
+{% assign d = days | size | minus: 1 %}
+{% assign max_day = days[d] %}
+
+{% for day in (1..max_day) %}
+    {% assign day_episodes = EPISODES | where: "day", day %}
+    {% assign episodes = day_episodes | sort: 'order' %}
+    {% for episode in episodes %}
+        {% if next_is_now == true %}
+            {% assign next_episode = episode %}
+            {% break %}
+        {% endif %}
+        {% if episode.url == page.url %}
+            {% assign previous_episode = last_episode %}
+            {% assign next_is_now = true %}
+        {% endif %}
+        {% assign last_episode = episode %}
+    {% endfor %}
+    {% if next_episode %}
+        {% break %}
+    {% endif %}
+{% endfor %}

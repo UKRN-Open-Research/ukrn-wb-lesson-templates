@@ -1,0 +1,99 @@
+{% comment %}
+Display episode's timings and learning objectives.
+
+Regarding the `if page.*** == nil` below:
+all-in-one page combines all episodes into one.
+It, therefore, does not define its own objectives, exercises,
+and questionss, which 'normal' episodes define in the front matter.
+
+To display episodes' teaching and exercise times, as well as episode
+questionss and objectives, we pass them as parameters to the Liquid's
+`include` statement when we generate the page:
+
+include episode_overview.html teaching_time=e.teaching ...
+
+Here we obtain the information we need either from the episode itself or
+from the parameters passed in.
+{% endcomment %}
+
+{% if page.teaching == nil %}
+{% assign teaching_time = include.teaching_time %}
+{% else %}
+{% assign teaching_time = page.teaching %}
+{% endif %}
+
+{% if page.exercises == nil %}
+{% assign exercise_time = include.exercise_time %}
+{% else %}
+{% assign exercise_time = page.exercises %}
+{% endif %}
+
+{% if page.duration == nil %}
+{% assign duration = include.duration %}
+{% else %}
+{% assign duration = page.duration %}
+{% endif %}
+
+{% if page.questions == nil %}
+{% assign episode_questions = include.episode_questions %}
+{% else %}
+{% assign episode_questions = page.questions %}
+{% endif %}
+
+{% if page.objectives == nil %}
+{% assign episode_objectives = include.episode_objectives %}
+{% else %}
+{% assign episode_objectives = page.objectives %}
+{% endif %}
+
+{% assign eq = episode_questions.size %}
+{% assign eo = episode_objectives.size %}
+
+{% if eq > 0 or > 0 or episode_time or exercise_time or duration %}
+<blockquote class="objectives">
+    <h2>Overview</h2>
+    {% if eq > 0 or eo > 0 or episode_time or exercise_time or duration %}
+    <div class="row">
+        {% if episode_time or exercise_time or duration %}
+        <div class="col-md-3">
+            {% if episode_time %}
+            <strong>Teaching:</strong> {{ teaching_time }} min
+            {% endif %}
+            {% if episode_time and (exercise_time or duration) %}
+            <br/>
+            {% endif %}
+            {% endif %}
+            {% if exercise_time %}
+            <strong>Exercises:</strong> {{ exercise_time }} min
+            {% endif %}
+            {% if episode_time and exercise_time and duration %}
+            <br/>
+            {% endif %}
+            {% if duration %}
+            <strong>Duration:</strong> {{ duration }} min
+            {% endif %}
+        </div>
+        {% if eq > 0 or eo > 0 %}
+        <div class="col-md-9">
+            {% if eq > 0 %}
+            <strong>Questions</strong>
+            <ul>
+                {% for question in episode_questions %}
+                <li>{{ question|markdownify }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% if eo > 0 %}
+            <strong>Objectives</strong>
+            <ul>
+                {% for objective in episode_objectives %}
+                <li>{{ objective|markdownify }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</blockquote>
+{% endif %}
