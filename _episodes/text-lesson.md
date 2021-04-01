@@ -11,7 +11,6 @@ keypoints: # list of take-home points
 is-break:  # whether this episode is a break (has different presentation)
 ukrn_wb_rules: # list of rules for the UKRN Workshop Builder tool
     - allow-multiple # when dragged into the schedule, create a new instance
-    - remove-on-stash # when dragged into the stash, remove
 day: 1
 order: 1
 ---
